@@ -1,3 +1,30 @@
+
+{% extends "layout.html" %}
+
+{% block title %}
+Posts
+{% endblock title %}
+
+{%block content %}
+    <h1>Posts List</h1>
+    <p>Welcome to the Posts page of this Django project.</p>
+    <p>checkout my <a href="/">Home</a> page.</p>
+    <section>
+        <h2>Posts</h2>
+        {% for post in posts %} 
+            <article>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.content }}</p>
+                <p>Published on: {{ post.created_at }}</p>
+            </article>
+        {% empty %}
+            <p>No posts available.</p>
+        {% endfor %}
+    </section>
+{% endblock content %}
+
+
+{#
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,3 +36,4 @@
     <p>Welcome to the posts page of this Django project.</p>
 </body>
 </html>
+#}

@@ -1,3 +1,5 @@
+# reference
+    https://www.youtube.com/watch?v=Rp5vd34d-z4&t=1275s
 # extenstions used
     vscode-icons
     Django (Baptiste )
@@ -7,6 +9,8 @@
     - include language
     - add item
     - django-html:html
+usage fr html page. type "!" and press tab to get a basic html page.
+To get emoji you can use this command:- ctrl + cmd + spacebar
 
 # setting up the env
 uv venv
@@ -127,5 +131,112 @@ ctrl + c
     update the "urls.py" to include the app routes.
         add this to urlpatters = []
             path('posts/', include('posts.urls')),  # this is the URL pattern that will be matched when the user visits the URL /posts/
-# reference
-    https://www.youtube.com/watch?v=Rp5vd34d-z4&t=1275s
+
+# Creating skeleton Template that can be used in various pages
+    You can create a skelton HTML and add place holers using blocks
+    <title>
+        {% block title %}
+            Django App
+        {% endblock  %}
+    </title>
+
+    we have created a layout.html for skeleton, which would be used by home and about page
+
+    We do this extention like this:
+
+    {% extends "layout.html" %} # to extend the layout.html
+
+    {% block title %} # the block values can be
+    Home
+    {% endblock title %}
+
+    {%block content %}
+        <h1>Home Page</h1>
+        <p>Welcome to the Home page of this Django project.</p>
+        <p>checkout my <a href="/about">About</a> page.</p>
+    {% endblock content %}
+
+# model and migration
+    There are models.py file in the app's folder (Posts in this case).
+    We can define data model here. these models would correspond to a table in the data base.
+    The table create happens when we migrate the migration. Before doing the migration we
+    have to create the migration file which describe the creation and changes to a given model and
+    thus these changes are migrated seemlessly.
+    STEPS:
+    1. Create/Define data model
+        - Create model Posts
+    2. create migration / this creates migration file to keep track of changes to the model
+        - $ python3 manage.py makemigrations
+        Migrations for 'posts':
+        posts/migrations/0001_initial.py # migrtion file is created
+
+    3. apply migrations
+        $ python3 manage.py migrate
+
+        This will apply migration that was created by the user as well as the migration that 
+        were built-in by the system.
+
+# Django ORM
+    ORM test in interactive shell
+    $ python3 manage.py shell
+
+    # Interactive shell session sample
+    Python 3.13.2 (main, Feb  5 2025, 18:58:04) [Clang 19.1.6 ] on darwin
+    Type "help", "copyright", "credits" or "license" for more information.
+    (InteractiveConsole)
+    >>> from posts.models import Posts
+    >>> p = Posts()
+    >>> p.title = "My first post"
+    >>> p.save()
+    >>> Posts.obects.all()
+    Traceback (most recent call last):
+    File "<console>", line 1, in <module>
+    AttributeError: type object 'Posts' has no attribute 'obects'. Did you mean: 'objects'?
+    >>> Posts.objects.all()
+    <QuerySet [<Posts: My first post>]>
+    >>> exit() # to leave the shell
+
+# Django Admin
+    $ python3 manage.py createsuperuser
+        Username (leave blank to use 'sujeetkumar'): sunny
+        Email address: 
+        Password: 
+        Password (again):      #sunny@987
+        The password is too similar to the username.
+        Bypass password validation and create user anyway? [y/N]: y
+        Superuser created successfully.
+
+    # start the server and open /admin -> lgin with above cred
+
+    # the Admin page can also be used as content management system.
+    But we dont see the posts that we had created.
+    To do this we need to registed this model with the admin
+    - Go to the posts/admin.py
+        from posts.models import Posts
+
+        # Register your models here.
+        admin.site.register(Posts)
+    - Now you can see posts on the admin panel and add new post to the db from here.
+
+# access model data into html
+    - Update hte views.py in posts
+    def post_list(request):
+        posts_list = Posts.objects.all()  # this will get all the posts from the database
+        return render(request, 'posts/posts_list.html', {'posts': posts_list}) # Template will have access to the "posts" as array of queryset.
+
+    # in the Post_list,html do this:
+        <section>
+        <h2>Posts</h2>
+        {% for post in posts %}  # we passed this posts data as dict
+            <article>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.content }}</p>
+                <p>Published on: {{ post.created_at }}</p>
+            </article>
+        {% empty %}
+            <p>No posts available.</p>
+        {% endfor %}
+
+# what we have done so far is creating web application endpoints and not the API endpoints
+    - A web endpoint is where a html pages are rendered and can be accessed via browser
+    - API endpoint are generally used by other application/ api client like postman.

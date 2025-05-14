@@ -1,3 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{%block content %}
+    <h1>Home Page</h1>
+    <p>Welcome to the Home page of this Django project.</p>
+    <p>checkout my <a href="/about">About</a> page.</p>
+{% endblock content %}
+
+{#
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -12,3 +25,4 @@
     <p>checkout my <a href="/about">About</a> page.</p>
 </body>
 </html>
+#}
