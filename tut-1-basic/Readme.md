@@ -240,3 +240,5 @@ ctrl + c
 # what we have done so far is creating web application endpoints and not the API endpoints
     - A web endpoint is where a html pages are rendered and can be accessed via browser
     - API endpoint are generally used by other application/ api client like postman.
+
+
