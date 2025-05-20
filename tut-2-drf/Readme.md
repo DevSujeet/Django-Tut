@@ -58,3 +58,13 @@
 2nd approach
     create a 'api' app and it will come with its own view.py and we can create urls.py as required
     - if app is create it need to be added to INSTALLED_APPS in setting.py
+
+
+
+## Class Based views
+## mixins
+## generics
+## routers
+## viewsets.ViewSet
+## viewsets.ModelViewSet
+

@@ -28,5 +28,7 @@ urlpatterns = [
     path('api/v1/students/', include('students.api.urls')),  # Uncomment this line to include the students API URLs
     # 2nd API endpoint
 
-    path('api/v1.1/student/', include('api.urls')),  # Uncomment this line to include the students API URLs
+    path('api/v1.1/', include('api.urls')),  # Uncomment this line to include the students API URLs
+
+    path('api/v1/', include('api.urls')),  # Uncomment this line to include the employees API URLs
 ]
