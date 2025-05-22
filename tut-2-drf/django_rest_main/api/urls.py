@@ -23,5 +23,9 @@ urlpatterns = [
     # path('employee/<int:pk>/', views.EmployeeDetail.as_view(), name='employee detail fetch / update / delete'),  # this is the URL pattern that will be matched when the user visits the URL /students/
 
     path('', include(router.urls)),  # this is the URL pattern that will be matched when the user visits the URL /employees/
-    
+
+    path('blogs/', views.BlogsView.as_view(), name='blogs'),  # this is the URL pattern that will be matched when the user visits the URL /students/
+    path('comments/', views.CommentsView.as_view(), name='blogs'),
+    path('blogs/<int:pk>/', views.BlogDetailView.as_view(), name='blog detail'),  # this is the URL pattern that will be matched when the user visits the URL /students/
+   path('comments/<int:pk>/', views.CommentDetailView.as_view(), name='comment detail'),  # this is the URL pattern that will be matched when the user visits the URL /students/
 ]   

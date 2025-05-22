@@ -68,3 +68,49 @@
 ## viewsets.ViewSet
 ## viewsets.ModelViewSet
 
+## Nested serializer
+
+# steps to create a new app
+    1. python3 manage.py startapp blogs
+    2. register in the project settings.py under INSTALLED_APPS = []
+    3. to register model update in Admin.py
+        admin.site.register(Blog)
+    4. After making model
+
+# pagination
+    1. global pagination (works for generics/viewsets)
+    updatein settings.py
+        REST_FRAMEWORK = {
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+        'PAGE_SIZE': 2,
+        }
+
+    2. custom Pagination (mixin/apiview)
+
+# filtering
+    django filters
+    - indigidual field
+    - combine multiple filters
+    - apply different look up expressions (like i-contains, i-exact ..lte/gte)
+    - custom filter with own logic
+
+    ## installation
+        pip install django-filter
+    ## register in settings.py
+    ## global filter: 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'], in the REST_FRAMEWORK in settings.py
+        - filterset_fields = ['designation']  in the views
+        - but these are case sensitive/exact match
+
+    ## custom filter
+
+
+# search filter
+    in view
+    from rest_framework import searchFilter
+
+    in views class
+    filter_backends = [SearchFiltes, Django]
+    search_fields = ['blog_title', 'blog_content'] //not complete check vid
+
+# ordering filter   
+    ordering_fields = ['id', 'blog_title']

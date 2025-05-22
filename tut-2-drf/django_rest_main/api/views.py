@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 # from django.shortcuts import render
 from students.models import Student
-
-
+from .paginations import CustomPagination
+from employees.filters import EmployeeFilter
 # Create your views here.
 
 
@@ -232,8 +232,39 @@ class EmployeeViewSet(viewsets.ViewSet):
 ###############################################
 # model viewset 
 class EmployeeViewSet(viewsets.ModelViewSet):
-    queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
     # ModelViewSet is a combination of ListCreateAPIView and RetrieveUpdateDestroyAPIView
     # ModelViewSet provides the full set of CRUD operations
     # ModelViewSet automatically provides 'list', 'create', 'retrieve', 'update' and 'destroy' actions
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    pagination_class = CustomPagination # this is used to set the pagination class for the viewset
+    # filterset_fields = ['designation'] # this is used to set the filter fields for the viewset
+    filterset_class = EmployeeFilter # this is used to set the filter class for the viewset
+
+from blogs.models import Blog, Comment
+from blogs.serializers import BlogSerializer, CommentSerializer , BlogWithCommentsSerializer
+
+
+class BlogsView(generics.ListCreateAPIView): 
+    queryset = Blog.objects.all()
+    serializer_class = BlogWithCommentsSerializer#BlogSerializer
+    # ListCreateAPIView is a combination of ListAPIView and CreateAPIView
+
+class CommentsView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    # ListCreateAPIView is a combination of ListAPIView and CreateAPIView
+
+class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogWithCommentsSerializer
+    lookup_field = 'pk' # this is used to specify the field to be used for lookups
+    # RetrieveUpdateDestroyAPIView is a combination of RetrieveAPIView, UpdateAPIView and DestroyAPIView
+    # RetrieveUpdateDestroyAPIView provides the full set of CRUD operations
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    lookup_field = 'pk' # this is used to specify the field to be used for lookups
+    # RetrieveUpdateDestroyAPIView is a combination of RetrieveAPIView, UpdateAPIView and DestroyAPIView
+    # RetrieveUpdateDestroyAPIView provides the full set of CRUD operations
